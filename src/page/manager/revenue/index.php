@@ -1,26 +1,3 @@
-<div class="flex-1 p-6 pb-2 md:p-10">
-    <div class="flex justify-between items-center mb-6 hover:cursor-pointer">
-        <div class="relative w-1/2 flex">
-            <input class="w-full py-2 px-4 mr-2 rounded-lg border border-gray-300" placeholder="Tìm kiếm..." type="text" />
-            <button type="submit" class="btn btn-primary ml-2 px-3">Tìm</button>
-        </div>
-        <div class="flex items-center hover:cursor-pointer">
-            <div class="ml-4 bg-blue-100 text-blue-500 p-2 rounded-full text-xl hover:bg-blue-500 hover:text-white">
-                <i class="fa-regular fa-envelope"></i>
-            </div>
-            <div class="ml-4 bg-blue-100 text-blue-500 p-2 rounded-full text-xl hover:bg-blue-500 hover:text-white">
-                <i class="fa-regular fa-bell"></i>
-            </div>
-            <div class="ml-4 flex items-center relative user-container">
-                <img alt="User Avatar" class="rounded-full mr-1 border-solid border-2" height="40" width="40" src="../../../images/user.png" />
-                <span class="text-xs font-bold ml-1">Sang</span>
-
-                <div class="subnav absolute top-11 right-0 bg-white rounded-lg bg-gray-500 h-fit p-2 text-center border-2">
-                    <a href="../../../index.php">Đăng xuất <i class="fa-solid fa-right-from-bracket"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="grid grid-cols-1 md:grid-cols-1 gap-6 mt-8">
         <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
             <div class="flex justify-between items-center mb-4">
@@ -36,33 +13,35 @@
                 <table class="text-base w-full">
                     <thead>
                         <tr>
-                            <th class="text-left text-gray-600">Ngày</th>
-                            <th class="text-left text-gray-600">Hình thức</th>
-                            <th class="text-left text-gray-600">Doanh thu</th>
+                            <th class="text-left text-gray-600">Ngày &amp; giờ</th>
+                            <th class="text-left text-gray-600">Món ăn</th>
+                            <th class="text-left text-gray-600">Số lượng</th>
+                            <th class="text-left text-gray-600">Đơn giá</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $sql = "SELECT * FROM orders";
+                        $sql = "SELECT * FROM orders AS O JOIN order_dish AS OD ON O.orderID = OD.orderID JOIN dish AS D ON OD.dishID = D.dishID";
                         $result = $conn->query($sql);
                         $revenue = 0;
 
                         while ($row = $result->fetch_assoc()) {
-                                echo "
+                            echo "
                                     <tr>
-                                        <td class='py-2'>" . $row["order_date"] . "</td>
-                                        <td class='py-2'>" . $row["payment_method"] . "</td>
-                                        <td class='py-2'>" . $row["order_total_amount"] . "</td>
+                                        <td class='py-2'>" . $row["orderDate"] . "</td>
+                                        <td class='py-2'>" . $row["dishName"] . "</td>
+                                        <td class='py-2>'>" . $row["quantity"] . "</td>
+                                        <td class='py-2'>" . number_format($row["totalAmount"], 2, '.', ',') . "</td>
                                     </tr>
                                     ";
-                                $revenue+=$row["order_total_amount"];
+                            $revenue += $row["totalAmount"];
                         }
                         ?>
                     </tbody>
                     <tfoot>
                         <tr class="border-t-2">
-                            <td colspan="2" class="font-bold text-lg">Tổng doanh thu:</td>
-                            <td><?php echo $revenue; ?> đồng</td>
+                            <td colspan="3" class="font-bold text-lg">Tổng doanh thu:</td>
+                            <td><?php echo number_format($revenue, 2, '.', ','); ?> đồng</td>
                         </tr>
                     </tfoot>
                 </table>

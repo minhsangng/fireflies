@@ -12,10 +12,7 @@ header {
 .nav-link {
     color: var(--third-color) !important;
     font-weight: 600 !important;
-}
-
-.nav-link:hover {
-    color: var(--primary-color) !important;
+    transition: color 0.25s;
 }
 
 .content-home {
@@ -28,6 +25,7 @@ header {
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: #F9E79F;
 }
+
 
 .products h2, .promotions h2 {
     color: #E67E22;

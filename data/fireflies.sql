@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 26, 2024 at 12:09 PM
+-- Generation Time: Oct 03, 2024 at 06:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,29 +28,29 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `attendance` (
-  `attendance_id` int(11) NOT NULL,
-  `employee_id` int(11) DEFAULT NULL,
-  `attendance_date` date NOT NULL,
-  `check_in_time` time DEFAULT NULL,
-  `check_out_time` time DEFAULT NULL,
-  `attendance_status` varchar(50) DEFAULT 'Có mặt'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `attendanceID` int(11) NOT NULL,
+  `userID` int(11) DEFAULT NULL,
+  `attendanceDate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
 -- Dumping data for table `attendance`
 --
 
-INSERT INTO `attendance` (`attendance_id`, `employee_id`, `attendance_date`, `check_in_time`, `check_out_time`, `attendance_status`) VALUES
-(1, NULL, '2023-09-10', '08:00:00', '17:00:00', 'Có mặt'),
-(2, NULL, '2023-09-10', '13:00:00', '22:00:00', 'Có mặt'),
-(3, NULL, '2023-09-11', '08:00:00', '17:00:00', 'Có mặt'),
-(4, NULL, '2023-09-11', '13:00:00', '22:00:00', 'Có mặt'),
-(5, NULL, '2023-09-12', '08:00:00', '17:00:00', 'Có mặt'),
-(6, NULL, '2023-09-12', '13:00:00', '22:00:00', 'Có mặt'),
-(7, NULL, '2023-09-13', '08:00:00', '17:00:00', 'Có mặt'),
-(8, NULL, '2023-09-13', '13:00:00', '22:00:00', 'Có mặt'),
-(9, NULL, '2023-09-14', '08:00:00', '17:00:00', 'Có mặt'),
-(10, NULL, '2023-09-14', '13:00:00', '22:00:00', 'Có mặt');
+INSERT INTO `attendance` (`attendanceID`, `userID`, `attendanceDate`) VALUES
+(1, 6, '2024-10-01'),
+(2, 7, '2024-10-02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `categoryID` int(11) NOT NULL,
+  `categoryName` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
 
@@ -59,217 +59,177 @@ INSERT INTO `attendance` (`attendance_id`, `employee_id`, `attendance_date`, `ch
 --
 
 CREATE TABLE `customers` (
-  `customer_id` int(11) NOT NULL,
-  `customer_name` varchar(255) NOT NULL,
-  `customer_phone` varchar(20) NOT NULL,
-  `customer_email` varchar(255) DEFAULT NULL,
-  `customer_address` text DEFAULT NULL,
-  `customer_blacklist_status` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `customerID` int(11) NOT NULL,
+  `customerName` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`customer_id`, `customer_name`, `customer_phone`, `customer_email`, `customer_address`, `customer_blacklist_status`) VALUES
-(1, 'Nguyen Van A', '0901123456', 'nguyenvana@gmail.com', '123 Đường ABC, Quận 1, TP.HCM', 0),
-(2, 'Tran Thi B', '0902345678', 'tranthib@gmail.com', '456 Đường DEF, Quận 3, TP.HCM', 0),
-(3, 'Le Van C', '0903344455', 'levanc@gmail.com', '789 Đường GHI, Quận 5, TP.HCM', 1),
-(4, 'Pham Thi D', '0904455566', 'phamthid@gmail.com', '101 Đường JKL, Quận 7, TP.HCM', 0),
-(5, 'Hoang Van E', '0905566778', 'hoangvane@gmail.com', '121 Đường MNO, Quận 9, TP.HCM', 0),
-(6, 'Nguyen Thi F', '0906677889', 'nguyenthif@gmail.com', '321 Đường PQR, Quận 11, TP.HCM', 0),
-(7, 'Tran Van G', '0907788990', 'tranvang@gmail.com', '654 Đường STU, Quận 4, TP.HCM', 0),
-(8, 'Le Thi H', '0908899001', 'lethih@gmail.com', '987 Đường VWX, Quận 6, TP.HCM', 0),
-(9, 'Pham Van I', '0909900112', 'phamvani@gmail.com', '456 Đường YZA, Quận 2, TP.HCM', 0),
-(10, 'Hoang Thi J', '0910011223', 'hoangthij@gmail.com', '678 Đường BCD, Quận 8, TP.HCM', 0),
-(11, 'Nguyen Van K', '0911122334', 'nguyenvank@gmail.com', '123 Đường ABC, Quận 1, TP.HCM', 0),
-(12, 'Tran Thi L', '0912233445', 'tranthil@gmail.com', '456 Đường DEF, Quận 3, TP.HCM', 0),
-(13, 'Le Van M', '0913344556', 'levanm@gmail.com', '789 Đường GHI, Quận 5, TP.HCM', 1),
-(14, 'Pham Thi N', '0914455667', 'phamthin@gmail.com', '101 Đường JKL, Quận 7, TP.HCM', 0),
-(15, 'Hoang Van O', '0915566778', 'hoangvano@gmail.com', '121 Đường MNO, Quận 9, TP.HCM', 0),
-(16, 'Nguyen Thi P', '0916677889', 'nguyenthif@gmail.com', '321 Đường PQR, Quận 11, TP.HCM', 0),
-(17, 'Tran Van Q', '0917788990', 'tranvanq@gmail.com', '654 Đường STU, Quận 4, TP.HCM', 0),
-(18, 'Le Thi R', '0918899001', 'lethir@gmail.com', '987 Đường VWX, Quận 6, TP.HCM', 0),
-(19, 'Pham Van S', '0919900112', 'phamvans@gmail.com', '456 Đường YZA, Quận 2, TP.HCM', 0),
-(20, 'Hoang Thi T', '0920011223', 'hoangthit@gmail.com', '678 Đường BCD, Quận 8, TP.HCM', 0),
-(21, 'Nguyen Van A', '0901123456', 'nguyenvana@gmail.com', '123 Đường ABC, Quận 1, TP.HCM', 0),
-(22, 'Tran Thi B', '0902345678', 'tranthib@gmail.com', '456 Đường DEF, Quận 3, TP.HCM', 0),
-(23, 'Le Van C', '0903344455', 'levanc@gmail.com', '789 Đường GHI, Quận 5, TP.HCM', 1),
-(24, 'Pham Thi D', '0904455566', 'phamthid@gmail.com', '101 Đường JKL, Quận 7, TP.HCM', 0),
-(25, 'Hoang Van E', '0905566778', 'hoangvane@gmail.com', '121 Đường MNO, Quận 9, TP.HCM', 0),
-(26, 'Nguyen Thi F', '0906677889', 'nguyenthif@gmail.com', '321 Đường PQR, Quận 11, TP.HCM', 0),
-(27, 'Tran Van G', '0907788990', 'tranvang@gmail.com', '654 Đường STU, Quận 4, TP.HCM', 0),
-(28, 'Le Thi H', '0908899001', 'lethih@gmail.com', '987 Đường VWX, Quận 6, TP.HCM', 0),
-(29, 'Pham Van I', '0909900112', 'phamvani@gmail.com', '456 Đường YZA, Quận 2, TP.HCM', 0),
-(30, 'Hoang Thi J', '0910011223', 'hoangthij@gmail.com', '678 Đường BCD, Quận 8, TP.HCM', 0),
-(31, 'Nguyen Van K', '0911122334', 'nguyenvank@gmail.com', '123 Đường ABC, Quận 1, TP.HCM', 0),
-(32, 'Tran Thi L', '0912233445', 'tranthil@gmail.com', '456 Đường DEF, Quận 3, TP.HCM', 0),
-(33, 'Le Van M', '0913344556', 'levanm@gmail.com', '789 Đường GHI, Quận 5, TP.HCM', 1),
-(34, 'Pham Thi N', '0914455667', 'phamthin@gmail.com', '101 Đường JKL, Quận 7, TP.HCM', 0),
-(35, 'Hoang Van O', '0915566778', 'hoangvano@gmail.com', '121 Đường MNO, Quận 9, TP.HCM', 0),
-(36, 'Nguyen Thi P', '0916677889', 'nguyenthif@gmail.com', '321 Đường PQR, Quận 11, TP.HCM', 0),
-(37, 'Tran Van Q', '0917788990', 'tranvanq@gmail.com', '654 Đường STU, Quận 4, TP.HCM', 0),
-(38, 'Le Thi R', '0918899001', 'lethir@gmail.com', '987 Đường VWX, Quận 6, TP.HCM', 0),
-(39, 'Pham Van S', '0919900112', 'phamvans@gmail.com', '456 Đường YZA, Quận 2, TP.HCM', 0),
-(40, 'Hoang Thi T', '0920011223', 'hoangthit@gmail.com', '678 Đường BCD, Quận 8, TP.HCM', 0);
+INSERT INTO `customers` (`customerID`, `customerName`, `email`, `phone`, `address`, `createdAt`) VALUES
+(1, 'Nguyễn Văn A', 'vana@example.com', '0987654321', '123 Đường ABC, Quận 1, TP.HCM', '2024-10-03 04:23:08'),
+(2, 'Trần Thị B', 'thib@example.com', '0912345678', '456 Đường DEF, Quận 3, TP.HCM', '2024-10-03 04:23:08');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `employees`
+-- Table structure for table `dish`
 --
 
-CREATE TABLE `employees` (
-  `employee_id` int(11) NOT NULL,
-  `employee_name` varchar(255) NOT NULL,
-  `employee_phone` varchar(20) DEFAULT NULL,
-  `employee_address` text DEFAULT NULL,
-  `employee_position` varchar(50) DEFAULT NULL,
-  `employee_shift` varchar(50) DEFAULT NULL,
-  `employee_salary` decimal(10,2) DEFAULT NULL,
-  `employee_status` varchar(50) DEFAULT 'Đang làm'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `dish` (
+  `dishID` int(11) NOT NULL,
+  `dishName` varchar(100) NOT NULL,
+  `dishCategory` varchar(100) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `businessStatus` varchar(50) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `preparationProcess` text DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Dumping data for table `employees`
+-- Dumping data for table `dish`
 --
 
-INSERT INTO `employees` (`employee_id`, `employee_name`, `employee_phone`, `employee_address`, `employee_position`, `employee_shift`, `employee_salary`, `employee_status`) VALUES
-(1, 'Tran Van A', '0901123456', '123 Đường ABC, Quận 1, TP.HCM', 'Nhân viên nhận đơn', 'Sáng', 7000000.00, 'Đang làm'),
-(2, 'Le Thi B', '0902233445', '456 Đường DEF, Quận 3, TP.HCM', 'Nhân viên bếp', 'Chiều', 8000000.00, 'Đang làm'),
-(3, 'Pham Van C', '0903344556', '789 Đường GHI, Quận 5, TP.HCM', 'Quản lý cửa hàng', 'Sáng', 12000000.00, 'Đang làm'),
-(4, 'Nguyen Thi D', '0904455667', '101 Đường JKL, Quận 7, TP.HCM', 'Nhân viên bếp', 'Tối', 7500000.00, 'Đang làm'),
-(5, 'Hoang Van E', '0905566778', '121 Đường MNO, Quận 9, TP.HCM', 'Nhân viên nhận đơn', 'Sáng', 7000000.00, 'Đang làm'),
-(6, 'Nguyen Van F', '0906677889', '321 Đường PQR, Quận 11, TP.HCM', 'Nhân viên bếp', 'Chiều', 8000000.00, 'Đang làm'),
-(7, 'Le Thi G', '0907788990', '654 Đường STU, Quận 4, TP.HCM', 'Quản lý chuỗi cửa hàng', 'Sáng', 15000000.00, 'Đang làm'),
-(8, 'Pham Thi H', '0908899001', '987 Đường VWX, Quận 6, TP.HCM', 'Nhân viên nhận đơn', 'Tối', 7000000.00, 'Đang làm'),
-(9, 'Hoang Van I', '0909900112', '456 Đường YZA, Quận 2, TP.HCM', 'Nhân viên bếp', 'Sáng', 8000000.00, 'Đang làm'),
-(10, 'Tran Van J', '0910011223', '678 Đường BCD, Quận 8, TP.HCM', 'Nhân viên nhận đơn', 'Chiều', 7000000.00, 'Đang làm'),
-(11, 'Tran Van A', '0901123456', '123 Đường ABC, Quận 1, TP.HCM', 'Nhân viên nhận đơn', 'Sáng', 7000000.00, 'Đang làm'),
-(12, 'Le Thi B', '0902233445', '456 Đường DEF, Quận 3, TP.HCM', 'Nhân viên bếp', 'Chiều', 8000000.00, 'Đang làm'),
-(13, 'Pham Van C', '0903344556', '789 Đường GHI, Quận 5, TP.HCM', 'Quản lý cửa hàng', 'Sáng', 12000000.00, 'Đang làm'),
-(14, 'Nguyen Thi D', '0904455667', '101 Đường JKL, Quận 7, TP.HCM', 'Nhân viên bếp', 'Tối', 7500000.00, 'Đang làm'),
-(15, 'Hoang Van E', '0905566778', '121 Đường MNO, Quận 9, TP.HCM', 'Nhân viên nhận đơn', 'Sáng', 7000000.00, 'Đang làm'),
-(16, 'Nguyen Van F', '0906677889', '321 Đường PQR, Quận 11, TP.HCM', 'Nhân viên bếp', 'Chiều', 8000000.00, 'Đang làm'),
-(17, 'Le Thi G', '0907788990', '654 Đường STU, Quận 4, TP.HCM', 'Quản lý chuỗi cửa hàng', 'Sáng', 15000000.00, 'Đang làm'),
-(18, 'Pham Thi H', '0908899001', '987 Đường VWX, Quận 6, TP.HCM', 'Nhân viên nhận đơn', 'Tối', 7000000.00, 'Đang làm'),
-(19, 'Hoang Van I', '0909900112', '456 Đường YZA, Quận 2, TP.HCM', 'Nhân viên bếp', 'Sáng', 8000000.00, 'Đang làm'),
-(20, 'Tran Van J', '0910011223', '678 Đường BCD, Quận 8, TP.HCM', 'Nhân viên nhận đơn', 'Chiều', 7000000.00, 'Đang làm');
+INSERT INTO `dish` (`dishID`, `dishName`, `dishCategory`, `price`, `businessStatus`, `description`, `preparationProcess`, `image`) VALUES
+(1, 'Gà rán giòn', 'Gà rán', 50000.00, 'available', 'Gà rán giòn với lớp vỏ giòn tan', 'Chiên gà trong dầu nóng', 'garan.png'),
+(2, 'Mì Ý sốt cà chua', 'Mì Ý', 45000.00, 'available', 'Mì Ý kèm sốt cà chua đậm đà', 'Luộc mì và nấu sốt', 'miysocachua.png'),
+(3, 'Kem vani', 'Kem', 20000.00, 'available', 'Kem vani mát lạnh', 'Làm lạnh kem', 'kemvani.png'),
+(4, 'Pepsi', 'Nước ngọt', 15000.00, 'available', 'Nước ngọt có gas vị Pepsi', 'Đóng chai', 'pepsivua.png'),
+(5, 'Coca-cola', 'Nước ngọt', 15000.00, 'available', 'Nước ngọt có gas vị Coca', 'Đóng chai', 'cocacolavua.png'),
+(6, 'Sprite', 'Nước ngọt', 15000.00, 'available', 'Nước ngọt có gas vị Sprite', 'Đóng chai', 'spritevua.png'),
+(7, 'Burger bò', 'Burger', 60000.00, 'available', 'Burger bò ngon miệng', 'Nướng bánh và làm nhân bò', 'burgerbo.png');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ingredients`
+-- Table structure for table `dish_ingredient`
 --
 
-CREATE TABLE `ingredients` (
-  `ingredient_id` int(11) NOT NULL,
-  `ingredient_name` varchar(255) NOT NULL,
-  `ingredient_unit` varchar(50) DEFAULT NULL,
-  `ingredient_quantity_in_stock` decimal(10,2) DEFAULT NULL,
-  `ingredient_cost` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `dish_ingredient` (
+  `dishID` int(11) NOT NULL,
+  `ingredientID` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Dumping data for table `ingredients`
+-- Dumping data for table `dish_ingredient`
 --
 
-INSERT INTO `ingredients` (`ingredient_id`, `ingredient_name`, `ingredient_unit`, `ingredient_quantity_in_stock`, `ingredient_cost`) VALUES
-(1, 'Bột mì', 'kg', 50.00, 25000.00),
-(2, 'Phô mai', 'kg', 30.00, 150000.00),
-(3, 'Cà chua', 'kg', 40.00, 20000.00),
-(4, 'Thịt bò', 'kg', 60.00, 250000.00),
-(5, 'Rau sống', 'kg', 50.00, 15000.00),
-(6, 'Bánh mì', 'cái', 100.00, 5000.00),
-(7, 'Gạo', 'kg', 200.00, 15000.00),
-(8, 'Thịt heo', 'kg', 80.00, 180000.00),
-(9, 'Hành lá', 'kg', 40.00, 10000.00),
-(10, 'Sườn', 'kg', 70.00, 200000.00),
-(11, 'Thịt gà', 'kg', 50.00, 170000.00),
-(12, 'Trứng gà', 'quả', 150.00, 5000.00),
-(13, 'Rau xanh', 'kg', 60.00, 15000.00),
-(14, 'Nước cốt dừa', 'lit', 40.00, 50000.00),
-(15, 'Tôm', 'kg', 30.00, 220000.00),
-(16, 'Bánh tráng', 'kg', 60.00, 10000.00),
-(17, 'Cá hồi', 'kg', 40.00, 350000.00),
-(18, 'Rong biển', 'kg', 20.00, 150000.00),
-(19, 'Thịt xông khói', 'kg', 25.00, 220000.00),
-(20, 'Bơ', 'kg', 50.00, 45000.00);
+INSERT INTO `dish_ingredient` (`dishID`, `ingredientID`, `quantity`) VALUES
+(1, 1, 1),
+(2, 2, 1),
+(2, 3, 1),
+(3, 4, 1),
+(4, 5, 1),
+(5, 6, 1),
+(6, 7, 1),
+(7, 8, 1),
+(7, 9, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `menuitems`
+-- Table structure for table `employeeshift`
 --
 
-CREATE TABLE `menuitems` (
-  `item_id` int(11) NOT NULL,
-  `item_name` varchar(255) NOT NULL,
-  `item_category` varchar(255) DEFAULT NULL,
-  `item_price` decimal(10,2) NOT NULL,
-  `item_status` varchar(50) DEFAULT 'Còn',
-  `item_preparation` text DEFAULT NULL,
-  `item_image` varchar(255) DEFAULT NULL,
-  `item_ingredient_quantity` text DEFAULT NULL,
-  `employee_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `employeeshift` (
+  `employeeShiftID` int(11) NOT NULL,
+  `userID` int(11) DEFAULT NULL,
+  `shiftID` int(11) DEFAULT NULL,
+  `startDate` date DEFAULT NULL,
+  `endDate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Dumping data for table `menuitems`
+-- Dumping data for table `employeeshift`
 --
 
-INSERT INTO `menuitems` (`item_id`, `item_name`, `item_category`, `item_price`, `item_status`, `item_preparation`, `item_image`, `item_ingredient_quantity`, `employee_id`) VALUES
-(1, 'Burger Bò', 'Burger', 45000.00, 'Còn', 'Nướng thịt bò, kèm sốt', 'burgerbo.png', 'Bánh mì, thịt bò, rau sống', 2),
-(2, 'Mì Ý Sốt Kem', 'Mì Ý', 25000.00, 'Còn', 'Nấu mì với sốt kem', 'miysotkem.png', 'Mì Ý, trứng, thịt xông khói', 3),
-(3, 'Gà Rán', 'Gà', 30000.00, 'Còn', 'Chiên giòn gà', 'garan.png', 'Thịt gà, bột chiên, dầu ăn', 6),
-(4, 'Khoai tây chiên (M)', 'Đồ chiên', 25000.00, 'Còn', 'Cắt khoai tây thành sợi và chiên giòn', 'khoaitaychien.png', 'Khoai tây, bột phô mai', 15),
-(5, 'Kem Sữa Tươi', 'Tráng miệng', 10000.00, 'Còn', 'Làm từ sữa tươi', 'kemsuatuoi.png', 'Sữa tươi', 15),
-(7, 'Burger Heo', 'Burger', 45000.00, 'Còn', 'Nướng thịt heo, kèm sốt', 'burgerheo.png', 'Bánh mì, thịt heo, rau sống', 2),
-(8, 'Gà Rán Sốt Bơ', 'Gà', 33000.00, 'Còn', 'Chiên giòn gà, sốt bơ', 'garansotbo.png', 'Thịt gà, bột chiên, bơ, dầu ăn', 6),
-(9, 'Coca-cola', 'Đồ uống', 18000.00, 'Còn', 'Coca-cola', 'cocacola.png', 'Coca-cola', 16),
-(10, 'Pepsi', 'Đồ uống', 18000.00, 'Còn', 'Pepsi', 'pepsi.png', 'Pepsi', 16),
-(11, 'Khoai tây chiên (L)', 'Đồ chiên', 30000.00, 'Còn', 'Cắt khoai tây thành sợi và chiên giòn', 'khoaitaychien.png', 'Khoai tây, bột phô mai', 15),
-(12, 'Sprite', 'Đồ uống', 18000.00, 'Còn', 'Sprite', 'sprite.png', 'Sprite', 16);
+INSERT INTO `employeeshift` (`employeeShiftID`, `userID`, `shiftID`, `startDate`, `endDate`) VALUES
+(5, 6, 1, '2024-10-01', '2024-10-01'),
+(6, 7, 2, '2024-10-01', '2024-10-01'),
+(7, 6, 2, '2024-10-02', '2024-10-02'),
+(8, 7, 1, '2024-10-02', '2024-10-02');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orderdetails`
+-- Table structure for table `importorder`
 --
 
-CREATE TABLE `orderdetails` (
-  `order_detail_id` int(11) NOT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `item_id` int(11) DEFAULT NULL,
-  `item_quantity` int(11) NOT NULL,
-  `item_price` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `importorder` (
+  `importOrderID` int(11) NOT NULL,
+  `storeID` int(11) DEFAULT NULL,
+  `importDate` date DEFAULT NULL,
+  `expirationDate` date DEFAULT NULL,
+  `total` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Dumping data for table `orderdetails`
+-- Dumping data for table `importorder`
 --
 
-INSERT INTO `orderdetails` (`order_detail_id`, `order_id`, `item_id`, `item_quantity`, `item_price`) VALUES
-(101, NULL, NULL, 2, 120000.00),
-(102, NULL, NULL, 1, 95000.00),
-(103, NULL, NULL, 1, 90000.00),
-(104, NULL, NULL, 2, 35000.00),
-(105, NULL, NULL, 3, 75000.00),
-(106, NULL, NULL, 1, 65000.00),
-(107, NULL, NULL, 1, 150000.00),
-(108, NULL, NULL, 1, 55000.00),
-(109, NULL, NULL, 1, 50000.00),
-(110, NULL, NULL, 1, 60000.00),
-(111, NULL, NULL, 1, 30000.00),
-(112, NULL, NULL, 2, 60000.00),
-(113, NULL, NULL, 2, 50000.00),
-(114, NULL, NULL, 1, 45000.00),
-(115, NULL, NULL, 2, 30000.00),
-(116, NULL, NULL, 2, 45000.00),
-(117, NULL, NULL, 1, 50000.00),
-(118, NULL, NULL, 2, 40000.00),
-(119, NULL, NULL, 2, 25000.00),
-(120, NULL, NULL, 1, 35000.00);
+INSERT INTO `importorder` (`importOrderID`, `storeID`, `importDate`, `expirationDate`, `total`) VALUES
+(1, 1, '2024-09-15', '2024-12-15', 500000.00),
+(2, 2, '2024-09-20', '2024-12-20', 300000.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ingredient`
+--
+
+CREATE TABLE `ingredient` (
+  `ingredientID` int(11) NOT NULL,
+  `ingredientName` varchar(100) DEFAULT NULL,
+  `info` varchar(255) DEFAULT NULL,
+  `manufactureDate` date DEFAULT NULL,
+  `expirationDate` date DEFAULT NULL,
+  `quantityInStock` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `ingredient`
+--
+
+INSERT INTO `ingredient` (`ingredientID`, `ingredientName`, `info`, `manufactureDate`, `expirationDate`, `quantityInStock`) VALUES
+(1, 'Thịt gà', 'Thịt gà tươi', '2024-09-01', '2024-12-01', 100),
+(2, 'Mì Ý', 'Mì Ý chất lượng cao', '2024-09-01', '2025-03-01', 200),
+(3, 'Sốt cà chua', 'Sốt cà chua nhập khẩu', '2024-09-15', '2025-01-01', 150),
+(4, 'Kem vani', 'Kem vani tươi ngon', '2024-09-01', '2025-01-01', 50),
+(5, 'Pepsi', 'Nước ngọt có gas vị Pepsi', '2024-09-10', '2025-09-10', 500),
+(6, 'Coca', 'Nước ngọt có gas vị Coca', '2024-09-10', '2025-09-10', 500),
+(7, 'Sprite', 'Nước ngọt có gas vị Sprite', '2024-09-10', '2025-09-10', 500),
+(8, 'Thịt bò', 'Thịt bò nhập khẩu', '2024-09-01', '2024-12-01', 80),
+(9, 'Bánh burger', 'Bánh burger mềm', '2024-09-01', '2024-11-01', 100);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `needingingredient`
+--
+
+CREATE TABLE `needingingredient` (
+  `dishID` int(11) NOT NULL,
+  `ingredientID` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `needingingredient`
+--
+
+INSERT INTO `needingingredient` (`dishID`, `ingredientID`, `quantity`) VALUES
+(1, 1, 1),
+(2, 2, 1),
+(2, 3, 1),
+(7, 8, 1),
+(7, 9, 1);
 
 -- --------------------------------------------------------
 
@@ -278,208 +238,274 @@ INSERT INTO `orderdetails` (`order_detail_id`, `order_id`, `item_id`, `item_quan
 --
 
 CREATE TABLE `orders` (
-  `order_id` int(11) NOT NULL,
-  `customer_id` int(11) DEFAULT NULL,
-  `order_date` datetime NOT NULL,
-  `order_status` varchar(50) DEFAULT 'Đã đặt',
-  `order_total_amount` decimal(10,2) DEFAULT NULL,
-  `payment_method` varchar(50) DEFAULT NULL,
-  `delivery_address` text DEFAULT NULL,
-  `recipient_name` varchar(255) DEFAULT NULL,
-  `recipient_phone` varchar(20) DEFAULT NULL,
-  `order_notes` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `orderID` int(11) NOT NULL,
+  `customerID` int(11) DEFAULT NULL,
+  `orderDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `totalAmount` decimal(10,2) DEFAULT NULL,
+  `status` varchar(50) DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `customer_id`, `order_date`, `order_status`, `order_total_amount`, `payment_method`, `delivery_address`, `recipient_name`, `recipient_phone`, `order_notes`) VALUES
-(1, 1, '2023-09-10 12:30:00', 'Đã đặt', 350000.00, 'Tiền mặt', '123 Đường ABC, Quận 1, TP.HCM', 'Nguyen Van A', '0901123456', 'Giao nhanh'),
-(2, 2, '2023-09-11 14:00:00', 'Đã đặt', 200000.00, 'Chuyển khoản', '456 Đường DEF, Quận 3, TP.HCM', 'Tran Thi B', '0902345678', ''),
-(3, 3, '2023-09-12 15:00:00', 'Đã đặt', 250000.00, 'Tiền mặt', '789 Đường GHI, Quận 5, TP.HCM', 'Le Van C', '0903344455', ''),
-(4, 4, '2023-09-13 13:45:00', 'Đã đặt', 150000.00, 'Tiền mặt', '101 Đường JKL, Quận 7, TP.HCM', 'Pham Thi D', '0904455566', ''),
-(5, 5, '2023-09-14 11:30:00', 'Đã đặt', 180000.00, 'Chuyển khoản', '121 Đường MNO, Quận 9, TP.HCM', 'Hoang Van E', '0905566778', 'Không hành'),
-(6, 6, '2023-09-15 16:30:00', 'Đã đặt', 60000.00, 'Tiền mặt', '321 Đường PQR, Quận 11, TP.HCM', 'Nguyen Thi F', '0906677889', ''),
-(7, 7, '2023-09-16 12:00:00', 'Đã đặt', 95000.00, 'Chuyển khoản', '654 Đường STU, Quận 4, TP.HCM', 'Tran Van G', '0907788990', ''),
-(8, 8, '2023-09-17 10:00:00', 'Đã đặt', 50000.00, 'Tiền mặt', '987 Đường VWX, Quận 6, TP.HCM', 'Le Thi H', '0908899001', ''),
-(9, 9, '2023-09-18 13:00:00', 'Đã đặt', 75000.00, 'Chuyển khoản', '456 Đường YZA, Quận 2, TP.HCM', 'Pham Van I', '0909900112', 'Giao nhanh'),
-(10, 10, '2023-09-19 14:30:00', 'Đã đặt', 120000.00, 'Tiền mặt', '678 Đường BCD, Quận 8, TP.HCM', 'Hoang Thi J', '0910011223', ''),
-(11, 11, '2023-09-20 15:45:00', 'Đã đặt', 350000.00, 'Chuyển khoản', '123 Đường ABC, Quận 1, TP.HCM', 'Nguyen Van K', '0911122334', ''),
-(12, 12, '2023-09-21 12:15:00', 'Đã đặt', 200000.00, 'Tiền mặt', '456 Đường DEF, Quận 3, TP.HCM', 'Tran Thi L', '0912233445', 'Không hành'),
-(13, 13, '2023-09-22 14:30:00', 'Đã đặt', 250000.00, 'Chuyển khoản', '789 Đường GHI, Quận 5, TP.HCM', 'Le Van M', '0913344556', ''),
-(14, 14, '2023-09-23 16:00:00', 'Đã đặt', 180000.00, 'Tiền mặt', '101 Đường JKL, Quận 7, TP.HCM', 'Pham Thi N', '0914455667', ''),
-(15, 15, '2023-09-24 10:45:00', 'Đã đặt', 150000.00, 'Chuyển khoản', '121 Đường MNO, Quận 9, TP.HCM', 'Hoang Van O', '0915566778', 'Không hành'),
-(16, 16, '2023-09-25 12:00:00', 'Đã đặt', 300000.00, 'Tiền mặt', '321 Đường PQR, Quận 11, TP.HCM', 'Nguyen Thi P', '0916677889', ''),
-(17, 17, '2023-09-26 11:15:00', 'Đã đặt', 95000.00, 'Chuyển khoản', '654 Đường STU, Quận 4, TP.HCM', 'Tran Van Q', '0917788990', ''),
-(18, 18, '2023-09-27 14:30:00', 'Đã đặt', 50000.00, 'Tiền mặt', '987 Đường VWX, Quận 6, TP.HCM', 'Le Thi R', '0918899001', ''),
-(19, 19, '2023-09-28 16:00:00', 'Đã đặt', 75000.00, 'Chuyển khoản', '456 Đường YZA, Quận 2, TP.HCM', 'Pham Van S', '0919900112', ''),
-(20, 20, '2023-09-29 13:45:00', 'Đã đặt', 120000.00, 'Tiền mặt', '678 Đường BCD, Quận 8, TP.HCM', 'Hoang Thi T', '0920011223', 'Giao nhanh');
+INSERT INTO `orders` (`orderID`, `customerID`, `orderDate`, `totalAmount`, `status`) VALUES
+(1, 1, '2024-09-30 17:00:00', 120000.00, 'Hoàn thành'),
+(2, 2, '2024-10-01 17:00:00', 60000.00, 'Đang chế biến');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `partyorders`
+-- Table structure for table `order_dish`
 --
 
-CREATE TABLE `partyorders` (
-  `party_order_id` int(11) NOT NULL,
-  `customer_id` int(11) DEFAULT NULL,
-  `store_id` int(11) DEFAULT NULL,
-  `party_date` date NOT NULL,
-  `total_amount` decimal(10,2) DEFAULT NULL,
-  `deposit_amount` decimal(10,2) DEFAULT NULL,
-  `party_status` varchar(50) DEFAULT 'Đã đặt'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `order_dish` (
+  `orderID` int(11) NOT NULL,
+  `dishID` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Dumping data for table `partyorders`
+-- Dumping data for table `order_dish`
 --
 
-INSERT INTO `partyorders` (`party_order_id`, `customer_id`, `store_id`, `party_date`, `total_amount`, `deposit_amount`, `party_status`) VALUES
-(1, NULL, NULL, '2023-09-30', 5000000.00, 1000000.00, 'Đã đặt'),
-(2, NULL, NULL, '2023-10-01', 7000000.00, 2000000.00, 'Đã đặt'),
-(3, NULL, NULL, '2023-10-05', 6000000.00, 1500000.00, 'Đã đặt'),
-(4, NULL, NULL, '2023-10-10', 8000000.00, 2500000.00, 'Đã đặt'),
-(5, NULL, NULL, '2023-10-15', 9000000.00, 3000000.00, 'Đã đặt'),
-(6, NULL, NULL, '2023-10-20', 10000000.00, 3500000.00, 'Đã đặt'),
-(7, NULL, NULL, '2023-10-25', 11000000.00, 4000000.00, 'Đã đặt'),
-(8, NULL, NULL, '2023-10-30', 12000000.00, 4500000.00, 'Đã đặt'),
-(9, NULL, NULL, '2023-11-05', 13000000.00, 5000000.00, 'Đã đặt'),
-(10, NULL, NULL, '2023-11-10', 14000000.00, 5500000.00, 'Đã đặt');
+INSERT INTO `order_dish` (`orderID`, `dishID`, `quantity`) VALUES
+(1, 1, 1),
+(1, 4, 1),
+(2, 7, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `promotions`
+-- Table structure for table `order_items`
 --
 
-CREATE TABLE `promotions` (
-  `promotion_id` int(11) NOT NULL,
-  `promotion_name` varchar(255) DEFAULT NULL,
-  `discount_percentage` decimal(5,2) DEFAULT NULL,
-  `start_date` date DEFAULT NULL,
-  `end_date` date DEFAULT NULL,
+CREATE TABLE `order_items` (
+  `orderItemID` int(11) NOT NULL,
+  `orderID` int(11) DEFAULT NULL,
+  `productID` int(11) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `partypackage`
+--
+
+CREATE TABLE `partypackage` (
+  `partyPackageID` int(11) NOT NULL,
+  `partyPackageName` varchar(100) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `startDate` date DEFAULT NULL,
+  `endDate` date DEFAULT NULL,
+  `decoration` text DEFAULT NULL,
+  `note` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `partypackage`
+--
+
+INSERT INTO `partypackage` (`partyPackageID`, `partyPackageName`, `price`, `image`, `startDate`, `endDate`, `decoration`, `note`) VALUES
+(1, 'Gói tiệc sinh nhật', 650000.00, 'party1.png', '2024-09-01', '2025-01-01', 'Trang trí bóng bay, chữ và nến', 'Gói tiệc cho 10 người'),
+(2, 'Gói tiệc gia đình', 1200000.00, 'party2.png', '2024-09-01', '2025-01-01', 'Trang trí chuyên nghiệp với hoa và nến', 'Gói tiệc cho 20 người');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `partypackage_dish`
+--
+
+CREATE TABLE `partypackage_dish` (
+  `partyPackageID` int(11) NOT NULL,
+  `dishID` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `partypackage_dish`
+--
+
+INSERT INTO `partypackage_dish` (`partyPackageID`, `dishID`, `quantity`) VALUES
+(1, 1, 10),
+(1, 4, 10),
+(2, 5, 20),
+(2, 7, 20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `productID` int(11) NOT NULL,
+  `productName` varchar(100) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
   `description` text DEFAULT NULL,
-  `promotion_status` varchar(50) DEFAULT 'Đang áp dụng'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `promotions`
---
-
-INSERT INTO `promotions` (`promotion_id`, `promotion_name`, `discount_percentage`, `start_date`, `end_date`, `description`, `promotion_status`) VALUES
-(1, 'Khuyến mãi mùa hè', 10.00, '2023-06-01', '2023-08-31', 'Giảm giá 10% cho tất cả đơn hàng', 'Sắp áp dụng'),
-(2, 'Giảm giá cuối tuần', 15.00, '2023-09-01', '2023-09-30', 'Giảm 15% cho đơn hàng từ 200,000 VND', 'Đang áp dụng'),
-(3, 'Giáng sinh an lành', 20.00, '2023-12-01', '2023-12-25', 'Giảm 20% cho đơn hàng từ 500,000 VND', 'Sắp áp dụng'),
-(4, 'Tết Nguyên Đán', 25.00, '2024-01-15', '2024-02-15', 'Giảm 25% cho tất cả các món tráng miệng', 'Sắp áp dụng'),
-(5, 'Ngày Phụ nữ Việt Nam', 10.00, '2023-10-20', '2023-10-20', 'Giảm giá 10% cho tất cả đơn hàng', 'Sắp áp dụng'),
-(6, 'Mừng sinh nhật Đom Đóm', 15.00, '2023-11-01', '2023-11-10', 'Giảm 15% cho mọi đơn hàng', 'Đang áp dụng'),
-(7, 'Flash sale', 30.00, '2023-09-05', '2023-09-07', 'Giảm 30% trong 3 ngày duy nhất', 'Ngừng áp dụng'),
-(8, 'Black Friday', 50.00, '2023-11-24', '2023-11-24', 'Giảm 50% cho tất cả sản phẩm', 'Sắp áp dụng'),
-(9, 'Cyber Monday', 40.00, '2023-11-27', '2023-11-27', 'Giảm 40% cho tất cả đơn hàng online', 'Sắp áp dụng'),
-(10, 'Khuyến mãi VIP', 20.00, '2023-09-01', '2023-09-30', 'Giảm giá 20% cho khách hàng VIP', 'Đang áp dụng');
+  `stock` int(11) DEFAULT 0,
+  `categoryID` int(11) DEFAULT NULL,
+  `createdAt` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `revenuereports`
+-- Table structure for table `promotion`
 --
 
-CREATE TABLE `revenuereports` (
-  `report_id` int(11) NOT NULL,
-  `store_id` int(11) DEFAULT NULL,
-  `report_date` date NOT NULL,
-  `total_revenue` decimal(10,2) DEFAULT NULL,
-  `total_cost` decimal(10,2) DEFAULT NULL,
-  `total_profit` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `promotion` (
+  `promotionID` int(11) NOT NULL,
+  `promotionName` varchar(100) DEFAULT NULL,
+  `discountPercentage` decimal(5,2) DEFAULT NULL,
+  `startDate` date DEFAULT NULL,
+  `endDate` date DEFAULT NULL,
+  `description` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Dumping data for table `revenuereports`
+-- Dumping data for table `promotion`
 --
 
-INSERT INTO `revenuereports` (`report_id`, `store_id`, `report_date`, `total_revenue`, `total_cost`, `total_profit`) VALUES
-(31, NULL, '2023-09-10', 5000000.00, 3000000.00, 2000000.00),
-(32, NULL, '2023-09-11', 4000000.00, 2500000.00, 1500000.00),
-(33, NULL, '2023-09-12', 4500000.00, 2700000.00, 1800000.00),
-(34, NULL, '2023-09-13', 6000000.00, 3500000.00, 2500000.00),
-(35, NULL, '2023-09-14', 7000000.00, 4000000.00, 3000000.00),
-(36, NULL, '2023-09-15', 8000000.00, 4500000.00, 3500000.00),
-(37, NULL, '2023-09-16', 7500000.00, 4300000.00, 3200000.00),
-(38, NULL, '2023-09-17', 6500000.00, 3800000.00, 2700000.00),
-(39, NULL, '2023-09-18', 7000000.00, 4000000.00, 3000000.00),
-(40, NULL, '2023-09-19', 8500000.00, 5000000.00, 3500000.00);
+INSERT INTO `promotion` (`promotionID`, `promotionName`, `discountPercentage`, `startDate`, `endDate`, `description`) VALUES
+(1, 'Combo 2 gà rán 1 pepsi vừa', 15.00, '2024-10-04', '2024-10-26', 'Giảm giá 15% cho combo 2 món'),
+(2, 'Tuần lễ sales', 5.00, '2024-09-30', '2024-10-06', 'Giảm giá 5% tất cả sản phẩm'),
+(3, 'Giảm giá khai trương', 10.00, '2024-10-01', '2024-10-31', 'Giảm giá 10% nhân dịp khai trương');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shiftregistration`
+-- Table structure for table `proposal`
 --
 
-CREATE TABLE `shiftregistration` (
-  `shift_registration_id` int(11) NOT NULL,
-  `employee_id` int(11) DEFAULT NULL,
-  `shift_date` date NOT NULL,
-  `shift_time` varchar(50) DEFAULT NULL,
-  `shift_status` varchar(50) DEFAULT 'Đã xác nhận'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `shiftregistration`
---
-
-INSERT INTO `shiftregistration` (`shift_registration_id`, `employee_id`, `shift_date`, `shift_time`, `shift_status`) VALUES
-(1, 1, '2023-09-10', 'Sáng', 'Đã xác nhận'),
-(2, 2, '2023-09-10', 'Chiều', 'Đã xác nhận'),
-(3, 3, '2023-09-11', 'Sáng', 'Đã xác nhận'),
-(4, 4, '2023-09-11', 'Tối', 'Đã xác nhận'),
-(5, 5, '2023-09-12', 'Sáng', 'Đã xác nhận'),
-(6, 6, '2023-09-12', 'Chiều', 'Đã xác nhận'),
-(7, 7, '2023-09-13', 'Sáng', 'Đã xác nhận'),
-(8, 8, '2023-09-13', 'Tối', 'Đã xác nhận'),
-(9, 9, '2023-09-14', 'Sáng', 'Đã xác nhận'),
-(10, 10, '2023-09-14', 'Chiều', 'Đã xác nhận');
+CREATE TABLE `proposal` (
+  `proposalID` int(11) NOT NULL,
+  `userID` int(11) DEFAULT NULL,
+  `typeOfProposal` varchar(100) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `stores`
+-- Table structure for table `role`
 --
 
-CREATE TABLE `stores` (
-  `store_id` int(11) NOT NULL,
-  `store_name` varchar(255) NOT NULL,
-  `store_address` text DEFAULT NULL,
-  `store_status` varchar(50) DEFAULT 'Đang kinh doanh',
-  `store_manager_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `role` (
+  `roleID` int(11) NOT NULL,
+  `roleName` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
 --
--- Dumping data for table `stores`
+-- Dumping data for table `role`
 --
 
-INSERT INTO `stores` (`store_id`, `store_name`, `store_address`, `store_status`, `store_manager_id`) VALUES
-(41, 'Đom Đóm Quận 1', '123 Đường ABC, Quận 1, TP.HCM', 'Đang kinh doanh', 3),
-(42, 'Đom Đóm Quận 3', '456 Đường DEF, Quận 3, TP.HCM', 'Đang kinh doanh', 3),
-(43, 'Đom Đóm Quận 5', '789 Đường GHI, Quận 5, TP.HCM', 'Đang kinh doanh', 3),
-(44, 'Đom Đóm Quận 7', '101 Đường JKL, Quận 7, TP.HCM', 'Đang kinh doanh', 3),
-(45, 'Đom Đóm Quận 9', '121 Đường MNO, Quận 9, TP.HCM', 'Tạm đóng cửa', 3),
-(46, 'Đom Đóm Quận 11', '321 Đường PQR, Quận 11, TP.HCM', 'Đang kinh doanh', 3),
-(47, 'Đom Đóm Quận 4', '654 Đường STU, Quận 4, TP.HCM', 'Ngừng kinh doanh', 3),
-(48, 'Đom Đóm Quận 6', '987 Đường VWX, Quận 6, TP.HCM', 'Đang kinh doanh', 3),
-(49, 'Đom Đóm Quận 2', '456 Đường YZA, Quận 2, TP.HCM', 'Đang kinh doanh', 3),
-(50, 'Đom Đóm Quận 8', '678 Đường BCD, Quận 8, TP.HCM', 'Đang kinh doanh', 3),
-(51, 'Đom Đóm Quận 1', '123 Đường ABC, Quận 1, TP.HCM', 'Đang kinh doanh', 3),
-(52, 'Đom Đóm Quận 3', '456 Đường DEF, Quận 3, TP.HCM', 'Đang kinh doanh', 3),
-(53, 'Đom Đóm Quận 5', '789 Đường GHI, Quận 5, TP.HCM', 'Đang kinh doanh', 3),
-(54, 'Đom Đóm Quận 7', '101 Đường JKL, Quận 7, TP.HCM', 'Đang kinh doanh', 3),
-(55, 'Đom Đóm Quận 9', '121 Đường MNO, Quận 9, TP.HCM', 'Tạm đóng cửa', 3),
-(56, 'Đom Đóm Quận 11', '321 Đường PQR, Quận 11, TP.HCM', 'Đang kinh doanh', 3),
-(57, 'Đom Đóm Quận 4', '654 Đường STU, Quận 4, TP.HCM', 'Ngừng kinh doanh', 3),
-(58, 'Đom Đóm Quận 6', '987 Đường VWX, Quận 6, TP.HCM', 'Đang kinh doanh', 3),
-(59, 'Đom Đóm Quận 2', '456 Đường YZA, Quận 2, TP.HCM', 'Đang kinh doanh', 3),
-(60, 'Đom Đóm Quận 8', '678 Đường BCD, Quận 8, TP.HCM', 'Đang kinh doanh', 3);
+INSERT INTO `role` (`roleID`, `roleName`) VALUES
+(1, 'Admin'),
+(2, 'Staff');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shift`
+--
+
+CREATE TABLE `shift` (
+  `shiftID` int(11) NOT NULL,
+  `shiftName` varchar(50) DEFAULT NULL,
+  `startTime` time DEFAULT NULL,
+  `endTime` time DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `shift`
+--
+
+INSERT INTO `shift` (`shiftID`, `shiftName`, `startTime`, `endTime`) VALUES
+(1, 'Ca sáng', '08:00:00', '12:00:00'),
+(2, 'Ca chiều', '13:00:00', '17:00:00'),
+(3, 'Ca tối', '18:00:00', '22:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `store`
+--
+
+CREATE TABLE `store` (
+  `storeID` int(11) NOT NULL,
+  `storeName` varchar(100) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `contact` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `store`
+--
+
+INSERT INTO `store` (`storeID`, `storeName`, `address`, `status`, `contact`) VALUES
+(1, 'Cửa hàng Fireflies 111', '12 Đường ABC, Quận Gò Vấp, TP.HCM', 'Đang hoạt động', '0982564321'),
+(2, 'Cửa hàng Fireflies 112', '5 Đường EFD, Quận Gò Vấp, TP.HCM', 'Đang hoạt động', '0965245921'),
+(3, 'Cửa hàng Fireflies 113', '18B Đường JKL, Quận Gò Vấp, TP.HCM', 'Đang hoạt động', '0962549823'),
+(4, 'Cửa hàng Fireflies 114', '90/5 Đường AHD, Quận Gò Vấp, TP.HCM', 'Đang hoạt động', '09356248921'),
+(5, 'Cửa hàng Fireflies 115', '6 Đường DEF, Quận Gò Vấp, TP.HCM', 'Đang hoạt động', '0913645678');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `store_ingredient`
+--
+
+CREATE TABLE `store_ingredient` (
+  `storeID` int(11) NOT NULL,
+  `ingredientID` int(11) NOT NULL,
+  `quantityInStock` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `store_ingredient`
+--
+
+INSERT INTO `store_ingredient` (`storeID`, `ingredientID`, `quantityInStock`, `date`) VALUES
+(1, 1, 50, '2024-09-30'),
+(1, 5, 100, '2024-09-30'),
+(2, 9, 30, '2024-09-30');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `userID` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('admin','staff') DEFAULT 'staff',
+  `createdAt` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`userID`, `username`, `password`, `role`, `createdAt`) VALUES
+(1, 'admin111', 'password', 'admin', '2024-10-03 04:36:19'),
+(2, 'admin112', 'password', 'admin', '2024-10-03 04:36:19'),
+(3, 'admin113', 'password', 'admin', '2024-10-03 04:36:19'),
+(4, 'admin114', 'password', 'admin', '2024-10-03 04:36:19'),
+(5, 'admin115', 'password', 'admin', '2024-10-03 04:36:19'),
+(6, 'staffA', 'password', 'staff', '2024-10-03 04:36:19'),
+(7, 'staffB', 'password', 'staff', '2024-10-03 04:36:19'),
+(8, 'staffC', 'password', 'staff', '2024-10-03 04:36:19'),
+(9, 'staffD', 'password', 'staff', '2024-10-03 04:36:19'),
+(10, 'staffE', 'password', 'staff', '2024-10-03 04:36:19');
 
 --
 -- Indexes for dumped tables
@@ -489,83 +515,149 @@ INSERT INTO `stores` (`store_id`, `store_name`, `store_address`, `store_status`,
 -- Indexes for table `attendance`
 --
 ALTER TABLE `attendance`
-  ADD PRIMARY KEY (`attendance_id`),
-  ADD KEY `employee_id` (`employee_id`);
+  ADD PRIMARY KEY (`attendanceID`),
+  ADD KEY `user_id` (`userID`);
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`categoryID`);
 
 --
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
-  ADD PRIMARY KEY (`customer_id`);
+  ADD PRIMARY KEY (`customerID`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indexes for table `employees`
+-- Indexes for table `dish`
 --
-ALTER TABLE `employees`
-  ADD PRIMARY KEY (`employee_id`);
+ALTER TABLE `dish`
+  ADD PRIMARY KEY (`dishID`);
 
 --
--- Indexes for table `ingredients`
+-- Indexes for table `dish_ingredient`
 --
-ALTER TABLE `ingredients`
-  ADD PRIMARY KEY (`ingredient_id`);
+ALTER TABLE `dish_ingredient`
+  ADD PRIMARY KEY (`dishID`,`ingredientID`),
+  ADD KEY `ingredientID` (`ingredientID`);
 
 --
--- Indexes for table `menuitems`
+-- Indexes for table `employeeshift`
 --
-ALTER TABLE `menuitems`
-  ADD PRIMARY KEY (`item_id`),
-  ADD KEY `employee_id` (`employee_id`);
+ALTER TABLE `employeeshift`
+  ADD PRIMARY KEY (`employeeShiftID`),
+  ADD KEY `user_id` (`userID`),
+  ADD KEY `shiftID` (`shiftID`);
 
 --
--- Indexes for table `orderdetails`
+-- Indexes for table `importorder`
 --
-ALTER TABLE `orderdetails`
-  ADD PRIMARY KEY (`order_detail_id`),
-  ADD KEY `order_id` (`order_id`),
-  ADD KEY `item_id` (`item_id`);
+ALTER TABLE `importorder`
+  ADD PRIMARY KEY (`importOrderID`),
+  ADD KEY `storeID` (`storeID`);
+
+--
+-- Indexes for table `ingredient`
+--
+ALTER TABLE `ingredient`
+  ADD PRIMARY KEY (`ingredientID`);
+
+--
+-- Indexes for table `needingingredient`
+--
+ALTER TABLE `needingingredient`
+  ADD PRIMARY KEY (`dishID`,`ingredientID`),
+  ADD KEY `ingredientID` (`ingredientID`);
 
 --
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
-  ADD PRIMARY KEY (`order_id`),
-  ADD KEY `customer_id` (`customer_id`);
+  ADD PRIMARY KEY (`orderID`),
+  ADD KEY `customer_id` (`customerID`);
 
 --
--- Indexes for table `partyorders`
+-- Indexes for table `order_dish`
 --
-ALTER TABLE `partyorders`
-  ADD PRIMARY KEY (`party_order_id`),
-  ADD KEY `customer_id` (`customer_id`),
-  ADD KEY `store_id` (`store_id`);
+ALTER TABLE `order_dish`
+  ADD PRIMARY KEY (`orderID`,`dishID`),
+  ADD KEY `dishID` (`dishID`);
 
 --
--- Indexes for table `promotions`
+-- Indexes for table `order_items`
 --
-ALTER TABLE `promotions`
-  ADD PRIMARY KEY (`promotion_id`);
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`orderItemID`),
+  ADD KEY `order_id` (`orderID`),
+  ADD KEY `product_id` (`productID`);
 
 --
--- Indexes for table `revenuereports`
+-- Indexes for table `partypackage`
 --
-ALTER TABLE `revenuereports`
-  ADD PRIMARY KEY (`report_id`),
-  ADD KEY `store_id` (`store_id`);
+ALTER TABLE `partypackage`
+  ADD PRIMARY KEY (`partyPackageID`);
 
 --
--- Indexes for table `shiftregistration`
+-- Indexes for table `partypackage_dish`
 --
-ALTER TABLE `shiftregistration`
-  ADD PRIMARY KEY (`shift_registration_id`),
-  ADD KEY `employee_id` (`employee_id`);
+ALTER TABLE `partypackage_dish`
+  ADD PRIMARY KEY (`partyPackageID`,`dishID`),
+  ADD KEY `dishID` (`dishID`);
 
 --
--- Indexes for table `stores`
+-- Indexes for table `products`
 --
-ALTER TABLE `stores`
-  ADD PRIMARY KEY (`store_id`),
-  ADD KEY `store_manager_id` (`store_manager_id`);
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`productID`),
+  ADD KEY `category_id` (`categoryID`);
+
+--
+-- Indexes for table `promotion`
+--
+ALTER TABLE `promotion`
+  ADD PRIMARY KEY (`promotionID`);
+
+--
+-- Indexes for table `proposal`
+--
+ALTER TABLE `proposal`
+  ADD PRIMARY KEY (`proposalID`),
+  ADD KEY `user_id` (`userID`);
+
+--
+-- Indexes for table `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`roleID`);
+
+--
+-- Indexes for table `shift`
+--
+ALTER TABLE `shift`
+  ADD PRIMARY KEY (`shiftID`);
+
+--
+-- Indexes for table `store`
+--
+ALTER TABLE `store`
+  ADD PRIMARY KEY (`storeID`);
+
+--
+-- Indexes for table `store_ingredient`
+--
+ALTER TABLE `store_ingredient`
+  ADD PRIMARY KEY (`storeID`,`ingredientID`),
+  ADD KEY `ingredientID` (`ingredientID`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`userID`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -575,73 +667,103 @@ ALTER TABLE `stores`
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `attendanceID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `categoryID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `customerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `employees`
+-- AUTO_INCREMENT for table `dish`
 --
-ALTER TABLE `employees`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+ALTER TABLE `dish`
+  MODIFY `dishID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `ingredients`
+-- AUTO_INCREMENT for table `employeeshift`
 --
-ALTER TABLE `ingredients`
-  MODIFY `ingredient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+ALTER TABLE `employeeshift`
+  MODIFY `employeeShiftID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `menuitems`
+-- AUTO_INCREMENT for table `importorder`
 --
-ALTER TABLE `menuitems`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+ALTER TABLE `importorder`
+  MODIFY `importOrderID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `orderdetails`
+-- AUTO_INCREMENT for table `ingredient`
 --
-ALTER TABLE `orderdetails`
-  MODIFY `order_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+ALTER TABLE `ingredient`
+  MODIFY `ingredientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `orderID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `partyorders`
+-- AUTO_INCREMENT for table `order_items`
 --
-ALTER TABLE `partyorders`
-  MODIFY `party_order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `order_items`
+  MODIFY `orderItemID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `promotions`
+-- AUTO_INCREMENT for table `partypackage`
 --
-ALTER TABLE `promotions`
-  MODIFY `promotion_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `partypackage`
+  MODIFY `partyPackageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `revenuereports`
+-- AUTO_INCREMENT for table `products`
 --
-ALTER TABLE `revenuereports`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+ALTER TABLE `products`
+  MODIFY `productID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `shiftregistration`
+-- AUTO_INCREMENT for table `promotion`
 --
-ALTER TABLE `shiftregistration`
-  MODIFY `shift_registration_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `promotion`
+  MODIFY `promotionID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `stores`
+-- AUTO_INCREMENT for table `proposal`
 --
-ALTER TABLE `stores`
-  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+ALTER TABLE `proposal`
+  MODIFY `proposalID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `role`
+--
+ALTER TABLE `role`
+  MODIFY `roleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `shift`
+--
+ALTER TABLE `shift`
+  MODIFY `shiftID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `store`
+--
+ALTER TABLE `store`
+  MODIFY `storeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
@@ -651,51 +773,80 @@ ALTER TABLE `stores`
 -- Constraints for table `attendance`
 --
 ALTER TABLE `attendance`
-  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`);
+  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`);
 
 --
--- Constraints for table `menuitems`
+-- Constraints for table `dish_ingredient`
 --
-ALTER TABLE `menuitems`
-  ADD CONSTRAINT `menuitems_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`);
+ALTER TABLE `dish_ingredient`
+  ADD CONSTRAINT `dish_ingredient_ibfk_1` FOREIGN KEY (`dishID`) REFERENCES `dish` (`dishID`),
+  ADD CONSTRAINT `dish_ingredient_ibfk_2` FOREIGN KEY (`ingredientID`) REFERENCES `ingredient` (`ingredientID`);
 
 --
--- Constraints for table `orderdetails`
+-- Constraints for table `employeeshift`
 --
-ALTER TABLE `orderdetails`
-  ADD CONSTRAINT `orderdetails_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
-  ADD CONSTRAINT `orderdetails_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `menuitems` (`item_id`);
+ALTER TABLE `employeeshift`
+  ADD CONSTRAINT `employeeshift_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`),
+  ADD CONSTRAINT `employeeshift_ibfk_2` FOREIGN KEY (`shiftID`) REFERENCES `shift` (`shiftID`);
+
+--
+-- Constraints for table `importorder`
+--
+ALTER TABLE `importorder`
+  ADD CONSTRAINT `importorder_ibfk_1` FOREIGN KEY (`storeID`) REFERENCES `store` (`storeID`);
+
+--
+-- Constraints for table `needingingredient`
+--
+ALTER TABLE `needingingredient`
+  ADD CONSTRAINT `needingingredient_ibfk_1` FOREIGN KEY (`dishID`) REFERENCES `dish` (`dishID`),
+  ADD CONSTRAINT `needingingredient_ibfk_2` FOREIGN KEY (`ingredientID`) REFERENCES `ingredient` (`ingredientID`);
 
 --
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customerID`) REFERENCES `customers` (`customerID`);
 
 --
--- Constraints for table `partyorders`
+-- Constraints for table `order_dish`
 --
-ALTER TABLE `partyorders`
-  ADD CONSTRAINT `partyorders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`),
-  ADD CONSTRAINT `partyorders_ibfk_2` FOREIGN KEY (`store_id`) REFERENCES `stores` (`store_id`);
+ALTER TABLE `order_dish`
+  ADD CONSTRAINT `order_dish_ibfk_1` FOREIGN KEY (`orderID`) REFERENCES `orders` (`orderID`),
+  ADD CONSTRAINT `order_dish_ibfk_2` FOREIGN KEY (`dishID`) REFERENCES `dish` (`dishID`);
 
 --
--- Constraints for table `revenuereports`
+-- Constraints for table `order_items`
 --
-ALTER TABLE `revenuereports`
-  ADD CONSTRAINT `revenuereports_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `stores` (`store_id`);
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`orderID`) REFERENCES `orders` (`orderID`),
+  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`productID`) REFERENCES `products` (`productID`);
 
 --
--- Constraints for table `shiftregistration`
+-- Constraints for table `partypackage_dish`
 --
-ALTER TABLE `shiftregistration`
-  ADD CONSTRAINT `shiftregistration_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`employee_id`);
+ALTER TABLE `partypackage_dish`
+  ADD CONSTRAINT `partypackage_dish_ibfk_1` FOREIGN KEY (`partyPackageID`) REFERENCES `partypackage` (`partyPackageID`),
+  ADD CONSTRAINT `partypackage_dish_ibfk_2` FOREIGN KEY (`dishID`) REFERENCES `dish` (`dishID`);
 
 --
--- Constraints for table `stores`
+-- Constraints for table `products`
 --
-ALTER TABLE `stores`
-  ADD CONSTRAINT `stores_ibfk_1` FOREIGN KEY (`store_manager_id`) REFERENCES `employees` (`employee_id`);
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`categoryID`);
+
+--
+-- Constraints for table `proposal`
+--
+ALTER TABLE `proposal`
+  ADD CONSTRAINT `proposal_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`);
+
+--
+-- Constraints for table `store_ingredient`
+--
+ALTER TABLE `store_ingredient`
+  ADD CONSTRAINT `store_ingredient_ibfk_1` FOREIGN KEY (`storeID`) REFERENCES `store` (`storeID`),
+  ADD CONSTRAINT `store_ingredient_ibfk_2` FOREIGN KEY (`ingredientID`) REFERENCES `ingredient` (`ingredientID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

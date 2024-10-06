@@ -1,26 +1,3 @@
-<div class="flex-1 p-6 pb-2 md:p-10">
-    <div class="flex justify-between items-center mb-6 hover:cursor-pointer">
-        <div class="relative w-1/2 flex">
-            <input class="w-full py-2 px-4 mr-2 rounded-lg border border-gray-300" placeholder="Tìm kiếm..." type="text" />
-            <button type="submit" class="btn btn-primary ml-2 px-3">Tìm</button>
-        </div>
-        <div class="flex items-center hover:cursor-pointer">
-            <div class="ml-4 bg-blue-100 text-blue-500 p-2 rounded-full text-xl hover:bg-blue-500 hover:text-white">
-                <i class="fa-regular fa-envelope"></i>
-            </div>
-            <div class="ml-4 bg-blue-100 text-blue-500 p-2 rounded-full text-xl hover:bg-blue-500 hover:text-white">
-                <i class="fa-regular fa-bell"></i>
-            </div>
-            <div class="ml-4 flex items-center relative user-container">
-                <img alt="User Avatar" class="rounded-full mr-1 border-solid border-2" height="40" width="40" src="../../../images/user.png" />
-                <span class="text-xs font-bold ml-1">Sang</span>
-
-                <div class="subnav absolute top-11 right-0 bg-white rounded-lg bg-gray-500 h-fit p-2 text-center border-2">
-                    <a href="../../../index.php">Đăng xuất <i class="fa-solid fa-right-from-bracket"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
 
         <div class="bg-white p-6 rounded-lg shadow-lg">
@@ -52,12 +29,12 @@
                     <p class="text-gray-600 mb-2">Doanh thu tháng</p>
                     <p class="text-xl font-semibold">
                         <?php
-                        $sql = "SELECT * FROM orders WHERE order_date >= '$startM' AND order_date <= '$endM'";
+                        $sql = "SELECT * FROM orders WHERE orderDate >= '$startM' AND orderDate <= '$endM'";
                         $result = $conn->query($sql);
                         $revenue = 0;
 
                         while ($row = $result->fetch_assoc()) {
-                            $revenue += $row['order_total_amount'];
+                            $revenue += $row['totalAmount'];
                         }
                         echo number_format($revenue, 2, '.', ',');
                         ?></p>
@@ -74,7 +51,7 @@
                     <p class="text-gray-600 mb-2">Đơn trong tháng</p>
                     <p class="text-xl font-semibold">
                         <?php
-                        $sql = "SELECT * FROM orders WHERE order_date >= '$startM' AND order_date <= '$endM'";
+                        $sql = "SELECT * FROM orders WHERE orderDate >= '$startM' AND orderDate <= '$endM'";
                         $result = $conn->query($sql);
                         $count = $result->num_rows;
 
@@ -105,14 +82,14 @@
         <div class="h-fit bg-gray-100 rounded-lg p-6">
             <canvas id="revenueChart" class="w-full" height="350"></canvas>
             <?php
-            $sql = "SELECT DAY(order_date) as date, order_total_amount FROM orders WHERE order_date>= '$startM' AND order_date <= '$endM'";
+            $sql = "SELECT DAY(orderDate) as date, totalAmount FROM orders WHERE orderDate >= '$startM' AND orderDate <= '$endM'";
             $result = $conn->query($sql);
             $revenue = 0;
             $data = [];
-
+            
             while ($row = $result->fetch_assoc()) {
-                $data[] = [$row['date'], (float)$row['order_total_amount']];
-                $revenue += $row['order_total_amount'];
+                $data[] = [$row["date"], (float)$row["totalAmount"]];
+                $revenue += $row["totalAmount"];
             }
 
             $jsonData = json_encode($data);
@@ -144,14 +121,14 @@
             </div>
 
             <?php
-            $sql = "SELECT * FROM shiftregistration AS SR JOIN employees AS E ON SR.employee_id = E.employee_id";
+            $sql = "SELECT * FROM employeeshift AS ES JOIN users AS U ON ES.userID = U.userID JOIN shift AS S ON S.shiftID = ES.shiftID";
             $result = $conn->query($sql);
             $workShifts = [];
 
             while ($row = $result->fetch_assoc()) {
-                $workShifts[$row["shift_date"]][] = [
-                    "employee" => $row["employee_name"],
-                    "time" => $row["shift_time"]
+                $workShifts[$row["startDate"]][] = [
+                    "employee" => $row["userName"],
+                    "time" => $row["shiftName"]
                 ];
             }
 
@@ -165,18 +142,18 @@
             <h2 class="text-xl font-semibold mb-4">Khách hàng trong tuần</h2>
             <ul>
                 <?php
-                $sql = "SELECT * FROM customers AS C JOIN orders AS O ON C.customer_id = O.customer_id WHERE order_date>= '$startW' AND order_date <= '$endW' ORDER BY order_date DESC";
+                $sql = "SELECT * FROM customers WHERE createdAt >= '$startW' AND createdAt <= '$endW' ORDER BY createdAt DESC";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows != 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $avt = substr($row["customer_name"], 0, 1);
+                        $avt = substr($row["customerName"], 0, 1);
                         echo "
                                     <li class='flex items-center py-2'>
                                         <div class='bg-blue-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4'>" . $avt . "</div>
                                         <div>
-                                            <p class='text-gray-600'>" . $row['customer_name'] . "</p>
-                                            <p class='text-sm text-gray-400'>" . $row['customer_email'] . "</p>
+                                            <p class='text-gray-600'>" . $row["customerName"] . "</p>
+                                            <p class='text-sm text-gray-400'>" . $row["email"] . "</p>
                                         </div>
                                         <div class='ml-auto'>
                                             <button class='bg-blue-100 text-blue-500 py-1 px-2 rounded-lg mr-2'>
@@ -198,7 +175,7 @@
             </h2>
 
             <?php
-            $sql = "SELECT * FROM orders WHERE order_date>= '$startW' AND order_date <= '$endW' ORDER BY order_date DESC";
+            $sql = "SELECT * FROM orders WHERE orderDate>= '$startW' AND orderDate <= '$endW' ORDER BY orderDate DESC";
             $result = $conn->query($sql);
 
             if ($result->num_rows != 0) {
@@ -223,46 +200,25 @@
                         <tbody>
                         ";
                 while ($row = $result->fetch_assoc()) {
-                    $amount = number_format($row["order_total_amount"], 2, '.', ',');
-                    if ($row["order_status"] == "Đã đặt") {
-                        echo "
-                                                <tr>
-                                                    <td class='py-2'>
-                                                        #101" . $row['order_id'] . "
-                                                    </td>
-                                                    <td class='py-2'>
-                                                        " . $row['order_date'] . "
-                                                    </td>
-                                                    <td class='py-2'>
-                                                        " . $amount . "
-                                                    </td>
-                                                    <td class='py-2'>
-                                                        <span class='bg-green-100 text-green-500 py-1 px-2 rounded-lg'>
-                                                            " . $row['order_status'] . "
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                        ";
-                    } else if ($row["order_status"] = "Đã hủy") {
-                        echo "
-                                            <tr>
-                                                <td class='py-2'>
-                                                    #101" . $row['order_id'] . "
-                                                </td>
-                                                <td class='py-2'>
-                                                    " . $row['order_date'] . "
-                                                </td>
-                                                <td class='py-2'>
-                                                    " . $amount . "
-                                                </td>
-                                                <td class='py-2'>
-                                                    <span class='bg-red-100 text-red-500 py-1 px-2 rounded-lg'>
-                                                        " . $row['order_status'] . "
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        ";
-                    }
+                    $amount = number_format($row["totalAmount"], 2, '.', ',');
+                    echo "
+                        <tr>
+                            <td class='py-2'>
+                                #101" . $row['orderID'] . "
+                            </td>
+                            <td class='py-2'>
+                                " . $row['orderDate'] . "
+                            </td>
+                            <td class='py-2'>
+                                " . $amount . "
+                            </td>
+                            <td class='py-2'>
+                                <span class='bg-" . ($row["status"] == 'Hoàn thành' ? 'green' : 'blue') . "-100 text-" . ($row["status"] == 'Hoàn thành' ? 'green' : 'blue') . "-500 py-1 px-2 rounded-lg'>
+                                    " . $row['status'] . "
+                                </span>
+                            </td>
+                        </tr>
+                    ";
                 }
                 echo "</tbody>
                         </table>";

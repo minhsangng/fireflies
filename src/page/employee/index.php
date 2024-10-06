@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Quản trị hệ thống | QLCH</title>
+    <title>Quản trị hệ thống | Nhân viên</title>
     <link rel="shortcut icon" href="../../../images/logo.png" type="image/x-icon" />
 
     <!-- Font Awesome CSS -->
@@ -31,7 +31,7 @@
     <!-- Font Awesome JS -->
     <script src="../../js/all.js"></script>
 
-    <!-- Bootstrap Bundle JS  -->
+    <!-- Bootstrap JS (bundle includes Popper.js) -->
     <script src="../../js/bootstrap.bundle.min.js"></script>
 
     <style>
@@ -91,47 +91,28 @@ error_reporting(1);
 session_start();
 $conn = new mysqli("localhost", "root", "", "fireflies");
 
-if (isset($_POST["btnxem"])) {
-    $_SESSION["startM"] = $_POST["startM"];
-    $_SESSION["endM"] = $_POST["endM"];
-
-    $daystart = explode("-", $_SESSION["startM"]);
-    $startM = implode("-", array($daystart[0], $daystart[1], $daystart[2]));
-    $dayend = explode("-", $_SESSION["endM"]);
-    $endM = implode("-", array($dayend[0], $dayend[1], $dayend[2]));
-} else {
-    $startM = date("Y-m-01");
-    $endM = date("Y-m-t");
-}
-
 $startW = date("Y-m-d", strtotime("monday this week"));
 $endW = date("Y-m-d", strtotime("sunday this week"));
 ?>
 
-<body class="bg-gray-100" style="scroll-behavior: smooth; font-family: 'Playwrite DE Grund', cursive;">
-    <div class="flex flex-col md:flex-row h-full">
+<body class="bg-gray-100 h-full" style="scroll-behavior: smooth; font-family: 'Playwrite DE Grund', cursive;">
+    <div class="flex flex-col md:flex-row">
         <div class="bg-gray-900 w-full md:w-64">
             <div class="flex items-center justify-center h-16 bg-gray-800">
                 <a href="index.php"><span class="text-white text-2xl font-semibold">Fireflies</span></a>
             </div>
             <nav class="mt-10">
-                <a class="flex items-center py-2 px-8 text-gray-400 hover:bg-gray-700 hover:text-white adnav" id="admin" href="index.php">
-                    <i class="fas fa-tachometer-alt mr-3"></i>Tổng quan
+                <a class="flex items-center py-2 px-8 text-gray-400 hover:bg-gray-700 hover:text-white adnav" id="home" href="index.php?i=home">
+                    <i class="fa-solid fa-folder-plus mr-3"></i>Tạo đơn hàng
                 </a>
-                <a class="flex items-center py-2 px-8 text-gray-400 hover:bg-gray-700 hover:text-white adnav" id="employee" href="index.php?i=employee">
-                    <i class="fa-solid fa-users-gear mr-3"></i></i>Quản lý nhân viên
-                </a>
-                <a class="flex items-center py-2 px-8 text-gray-400 hover:bg-gray-700 hover:text-white adnav" id="menu" href="index.php?i=menu">
-                    <i class="fa-solid fa-utensils mr-3"></i>Quản lý món ăn
-                </a>
-                <a class="flex items-center py-2 px-8 text-gray-400 hover:bg-gray-700 hover:text-white adnav" id="revenue" href="index.php?i=revenue">
-                    <i class="fa-solid fa-file-invoice-dollar mr-3"></i>Thống kê doanh thu
+                <a class="flex items-center py-2 px-8 text-gray-400 hover:bg-gray-700 hover:text-white adnav" id="update" href="index.php?i=update">
+                    <i class="fa-solid fa-pen-to-square mr-3"></i>Cập nhật đơn hàng
                 </a>
                 <a class="flex items-center py-2 px-8 text-gray-400 hover:bg-gray-700 hover:text-white adnav" id="shift" href="index.php?i=shift">
                     <i class="fa-regular fa-calendar-days mr-3"></i>Lịch làm việc
                 </a>
-                <a class="flex items-center py-2 px-8 text-gray-400 hover:bg-gray-700 hover:text-white adnav" id="attendance" href="index.php?i=attendance">
-                    <i class="fa-solid fa-clock mr-3"></i>Bảng chấm công
+                <a class="flex items-center py-2 px-8 text-gray-400 hover:bg-gray-700 hover:text-white adnav" id="proposal" href="index.php?i=proposal">
+                    <i class="fa-solid fa-lightbulb mr-3"></i>Đề xuất
                 </a>
             </nav>
         </div>
@@ -151,14 +132,14 @@ $endW = date("Y-m-d", strtotime("sunday this week"));
                     <div class="ml-4 flex items-center relative user-container">
                         <img alt="User Avatar" class="rounded-full mr-1 border-solid border-2" height="40" width="40" src="../../../images/user.png" />
                         <span class="text-xs font-bold ml-1">
-                            <?php
-                            $sql = "SELECT * FROM users WHERE role = 'Admin' LIMIT 1";
+                        <?php 
+                            $sql = "SELECT * FROM users WHERE role = 'Staff' LIMIT 1";
                             $result = $conn->query($sql);
-
+                            
                             while ($row = $result->fetch_assoc()) {
                                 echo $row["userName"];
                             }
-                            ?>
+                        ?>
                         </span>
 
                         <div class="subnav absolute top-11 right-0 bg-white rounded-lg bg-gray-500 h-fit p-2 text-center border-2">
@@ -184,12 +165,17 @@ $endW = date("Y-m-d", strtotime("sunday this week"));
             }
             ?>
         </div>
+        <!-- Footer -->
+        <footer class="mt-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2024 | made with by Fireflies</p>
+        </footer>
     </div>
     </div>
 
     <script>
         const navAd = document.querySelectorAll(".adnav");
-        let idActiveAd = "admin";
+        let idActiveAd = "home";
+
 
         navAd.forEach(function(item) {
             item.addEventListener("click", () => {
@@ -205,7 +191,6 @@ $endW = date("Y-m-d", strtotime("sunday this week"));
                 if (item.id == idActiveAd) item.classList.add("activeAd");
                 else item.classList.remove("activeAd");
             });
-            console.log(idActiveAd);
         });
     </script>
 </body>

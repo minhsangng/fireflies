@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="images/logo.png" type="image/x-icon" />
 
     <!-- Font Awesome CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.css" rel="stylesheet" />
+    <link href="src/css/all.css" rel="stylesheet" />
 
     <!-- Preconnect for Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,22 +17,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="src/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="src/style.css">
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="src/css/style.css">
 
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="src/js/tailwindcss.js"></script>
 
     <!-- jQuery -->
-    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="src/js/jquery.min.js"></script>
+
+    <!-- Chart -->
+    <script src="src/js/chart.js"></script>
 
     <!-- Font Awesome JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.js"></script>
+    <script src="src/js/all.js"></script>
 
     <!-- Bootstrap JS (bundle includes Popper.js) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="src/js/bootstrap.bundle.min.js"></script>
 
     <style>
         .nav .active {
@@ -43,7 +46,7 @@
         }
 
         .scrolled {
-            background-color: #F7DC6F;
+            background-color: rgba(162, 213, 242, 0.7);
         }
 
         .scrolled .active {
@@ -51,11 +54,42 @@
         }
 
         .nav-link:hover {
-            color: #5DADE2 !important;
+            color: var(--secondary-color) !important;
         }
 
         .modal-backdrop {
             z-index: -999;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: var(--third-color);
+            scale: 1 0;
+            z-index: -1;
+            transition: 0.45s;
+            border-radius: 10px;
+        }
+
+        .nav-link:hover::after {
+            scale: 1 1;
+        }
+
+        .dropdown:hover .dropdown-list {
+            display: block;
+        }
+
+        .dropdown-list {
+            display: none;
         }
     </style>
 </head>
@@ -70,14 +104,14 @@
                 </a>
                 <ul class="space-x-4 text-base nav">
                     <li class="nav-item"><a class="nav-link" id="home" href="index.php"> Trang chủ </a></li>
-                    <li class="nav-item nav-link dropdown-toggle hover:cursor-pointer flex items-center" id="dropdown 2" aria-expanded="false">
-                        Thực đơn
-                        <ul class="dropdown-menu">
+                    <li class="nav-item dropdown">
+                        <a href="index.php?p=menuitems" class="nav-link " id="menuitems">Thực đơn</a>
+                        <ul class="dropdown-list absolute top-full w-full bg-slate-200 rounded-md py-1">
                             <?php
-                            $query = "SELECT * FROM menuitems GROUP BY item_category ORDER BY item_category ASC";
+                            $query = "SELECT * FROM dish GROUP BY dishCategory ORDER BY dishCategory ASC";
                             $result = $conn->query($query);
                             while ($row = $result->fetch_assoc()) {
-                                echo "<li><a class='dropdown-item' href='index.php?menu='>" . $row['item_category'] . "</a></li>";
+                                echo "<li class='dropdown-item py-1 px-2 hover:bg-slate-100'><a class='dropdown-link' href='index.php?menu='>" . $row["dishCategory"] . "</a></li>";
                             }
                             ?>
                         </ul>
@@ -102,7 +136,7 @@
                     <h2 class="modal-title fs-5 font-bold text-3xl" id="cartModalLabel" style="color: #E67E22;">Giỏ hàng</h2>
                 </div>
                 <div class=" modal-body">
-                        <p>Chưa có sản phẩm nào</p>
+                    <p>Chưa có sản phẩm nào</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
